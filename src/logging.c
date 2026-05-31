@@ -11,9 +11,10 @@
 // dryox/init.h prefers this metadata.
 static char PROJECT_NAME[] = "DryoX/libdryox";
 static char FILE_NAME[] = "logging";
+static char LOG_FILE[PATH_MAX];
 __attribute__((constructor)) static void init(void)
 {
-    dryoinit(FILE_NAME, PROJECT_NAME);
+    dryoinit(LOG_FILE, FILE_NAME, PROJECT_NAME);
 }
 
 /*
@@ -34,8 +35,6 @@ typedef enum
     LOG_FATAL,
 } Log_Level;
 
-static char LOG_PATH[PATH_MAX];
-
 int dryolog(Log_Level level, char *format, ...)
 {
     // make a timestamp ts with current time since unix epoch
@@ -44,7 +43,7 @@ int dryolog(Log_Level level, char *format, ...)
     strftime(ts, sizeof(ts), "%m-%d-%Y %H:%M:%S", localtime(&now));
 
     // open file
-    FILE *logfile = fopen(LOG_PATH, "a");
+    FILE *logfile = fopen(LOG_FILE, "a");
     if (logfile == NULL)
     {
         fprintf(stderr,
@@ -60,6 +59,8 @@ int dryolog(Log_Level level, char *format, ...)
     va_list args_for_error;
     va_start(args, format);
     va_copy(args_for_error, args);
+
+    // TODO: stderr suppression for ERROR and FATAL
 
     // handle each level
     switch (level)
@@ -86,15 +87,17 @@ int dryolog(Log_Level level, char *format, ...)
     case LOG_ERROR:
         fprintf(logfile, "[%s] [ERROR] ", ts);
         vfprintf(logfile, format, args);
-        vfprintf(stderr, format, args_for_error);
         fprintf(logfile, "\n");
+        vfprintf(stderr, format, args_for_error);
+        fprintf(stderr, "\n");
         break;
 
     case LOG_FATAL:
         fprintf(logfile, "[%s] [FATAL] ", ts);
         vfprintf(logfile, format, args);
-        vfprintf(stderr, format, args_for_error);
         fprintf(logfile, "\n");
+        vfprintf(stderr, format, args_for_error);
+        fprintf(stderr, "\n");
         break;
     }
 

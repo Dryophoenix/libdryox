@@ -30,4 +30,4 @@ test: test_mkdirp
 
 clean:
 	rm -f $(ODIR)/*.o $(TARGET) test_mkdirp
-	rm -rf test_out
+	rm -rf tests

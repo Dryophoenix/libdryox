@@ -1,11 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <limits.h>
 #include <sys/stat.h>
+#include <libgen.h>
 #include "dryox/utils.h"
 
-int dryoinit(char *filename, char *projectname)
+int dryoinit(char *logfile_out, char *filename, char *projectname)
 {
+    // If there's an environmental variable, handle it...
+    const char *LOG_FILE_ENV = getenv("LOG_FILE");
+
+    if (LOG_FILE_ENV != NULL)
+    {
+        strncpy(logfile_out, LOG_FILE_ENV, PATH_MAX - 1);
+        logfile_out[PATH_MAX - 1] = '\0';
+        mkdirp(dirname(logfile_out));
+        FILE *f = fopen(logfile_out, "a");
+        fclose(f);
+        return 0;
+    }
+
     if (filename == NULL)
         filename = "catchall.log";
     if (projectname == NULL)
@@ -47,7 +62,28 @@ int dryoinit(char *filename, char *projectname)
     mkdirp(LOG_PATH);
     char LOG_FILE[PATH_MAX];
     snprintf(LOG_FILE, PATH_MAX, "%s/%s", LOG_PATH, filename);
+    strncpy(logfile_out, LOG_FILE, PATH_MAX - 1);
+    logfile_out[PATH_MAX - 1] = '\0';
     FILE *f = fopen(LOG_FILE, "a");
+    if (f == NULL)
+        return -1;
+    fclose(f);
+    return 0;
+}
+
+int dryoinit_absolute(char *logfile_out, char *rawpath)
+{
+    if (rawpath == NULL)
+    {
+        fprintf(stderr,
+                "The libdryox module \"init\" (absolute variant) was not assigned a path,\n"
+                "or the called function has no access to it.\n");
+        return -1;
+    }
+    strncpy(logfile_out, rawpath, PATH_MAX - 1);
+    logfile_out[PATH_MAX - 1] = '\0';
+    mkdirp(dirname(rawpath));
+    FILE *f = fopen(rawpath, "a");
     if (f == NULL)
         return -1;
     fclose(f);

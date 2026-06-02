@@ -1,3 +1,4 @@
+#include "dryox/logging.h"
 #include <stdio.h>
 #include <limits.h>
 #include <time.h>
@@ -6,19 +7,8 @@
 #include <stdarg.h>
 #include "dryox/init.h"
 
-#define DRYOX_TIMESTAMP_SIZE 32
-
-// dryox/init.h prefers this metadata.
-static char PROJECT_NAME[] = "DryoX/libdryox";
-static char FILE_NAME[] = "logging";
-static char LOG_FILE[PATH_MAX];
-__attribute__((constructor)) static void init(void)
-{
-    dryoinit(LOG_FILE, FILE_NAME, PROJECT_NAME);
-}
-
 /*
-Logging.c is a libdryox module.
+logging.c is a libdryox module.
 It serves the following extern functions:
     dryolog(Level level, char * message, ...);
 
@@ -26,15 +16,17 @@ It defines the following types:
     typedef enum Log_Level;
 */
 
-typedef enum
-{
-    LOG_DEBUG,
-    LOG_INFO,
-    LOG_WARN,
-    LOG_ERROR,
-    LOG_FATAL,
-} Log_Level;
+#define DRYOX_TIMESTAMP_SIZE 32
 
+static char PROJECT_NAME[] = "DryoX/libdryox";
+static char FILE_NAME[] = "logging";
+static char LOG_FILE[PATH_MAX];
+__attribute__((constructor)) static void init(void)
+{
+    dryoinit(LOG_FILE, FILE_NAME, PROJECT_NAME, DRYOX_XDG_STATE);
+}
+
+// dryolog version 0.1.0
 int dryolog(Log_Level level, char *format, ...)
 {
     // make a timestamp ts with current time since unix epoch

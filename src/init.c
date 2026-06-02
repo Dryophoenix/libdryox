@@ -1,91 +1,196 @@
+#include "dryox/init.h"
 #include <stdio.h>
+#include <stdarg.h>
 #include <stdlib.h>
-#include <string.h>
 #include <limits.h>
-#include <sys/stat.h>
+#include <string.h>
 #include <libgen.h>
 #include "dryox/utils.h"
 
-int dryoinit(char *logfile_out, char *filename, char *projectname)
+// Init version 0.2.0
+
+/*
+init.c is a libdryox module.
+It serves the following extern functions:
+    dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir *mode, ...);
+
+It defines the following types:
+    typedef enum Dryox_XDG_Dir;
+*/
+
+int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mode, ...)
 {
-    // If there's an environmental variable, handle it...
-    const char *LOG_FILE_ENV = getenv("LOG_FILE");
+    // start --
 
-    if (LOG_FILE_ENV != NULL)
-    {
-        strncpy(logfile_out, LOG_FILE_ENV, PATH_MAX - 1);
-        logfile_out[PATH_MAX - 1] = '\0';
-        mkdirp(dirname(logfile_out));
-        FILE *f = fopen(logfile_out, "a");
-        fclose(f);
-        return 0;
-    }
-
+    // -- this section handles arguments. --
     if (filename == NULL)
-        filename = "catchall.log";
+        filename = "default.log";
+
     if (projectname == NULL)
         projectname = "DryoX";
 
-    const char *DRYOX_LOG_DIR = getenv("DRYOX_LOG_DIR");
+    if (mode == DRYOX_XDG_UNSET)
+    {
+        fprintf(stderr, "%s line %d %s fatal: mode may not be unset and does not default", __FILE__, __LINE__, __func__);
+        return -1;
+    }
+
+    va_list args;
+    // -- end arguments handling --
+
+    // -- begin variables initializing --
+
     const char *HOME = getenv("HOME");
-    const char *XDG_STATE_HOME = getenv("XDG_STATE_HOME");
-    char LOG_PATH[PATH_MAX];
 
-    if (
-        DRYOX_LOG_DIR != NULL)
+    char DPATH[PATH_MAX];
+    char DFILE[PATH_MAX];
+
+    // -- end variables initializing --
+
+    // -- begin environment handling --
+
+    switch (mode)
     {
-        snprintf(LOG_PATH, PATH_MAX, "%s/%s", DRYOX_LOG_DIR, projectname);
+
+    case DRYOX_XDG_CONFIG:
+    {
+        const char *DENV_OVERRIDE = getenv("DENV_OVERRIDE_CONFIG");
+        const char *DXDG_CONFIG = getenv("XDG_CONFIG_HOME");
+        if (DENV_OVERRIDE != NULL)
+        {
+            snprintf(DPATH, PATH_MAX, "%s", DENV_OVERRIDE);
+            snprintf(DFILE, PATH_MAX, "%s/%s/%s", DENV_OVERRIDE, projectname, filename);
+        }
+        else if (DXDG_CONFIG != NULL)
+        {
+            snprintf(DPATH, PATH_MAX, "%s", DXDG_CONFIG);
+            snprintf(DFILE, PATH_MAX, "%s/%s/%s", DXDG_CONFIG, projectname, filename);
+        }
+        else if (HOME != NULL)
+        {
+            snprintf(DPATH, PATH_MAX, "%s/.config", HOME);
+            snprintf(DFILE, PATH_MAX, "%s/.config/%s/%s", HOME, projectname, filename);
+        }
+        else
+        {
+            fprintf(stderr, "%s line %d %s fatal: DENV_OVERRIDE_CONFIG, XDG_CONFIG_HOME, and HOME are all unset.", __FILE__, __LINE__, __func__);
+            return -1;
+        }
+        break;
     }
 
-    else if (
-        XDG_STATE_HOME != NULL)
+    case DRYOX_XDG_DATA:
     {
-        snprintf(LOG_PATH, PATH_MAX, "%s/%s", XDG_STATE_HOME, projectname);
+        const char *DENV_OVERRIDE = getenv("DENV_OVERRIDE_DATA");
+        const char *DXDG_DATA = getenv("XDG_DATA_HOME");
+        if (DENV_OVERRIDE != NULL)
+        {
+            snprintf(DPATH, PATH_MAX, "%s", DENV_OVERRIDE);
+            snprintf(DFILE, PATH_MAX, "%s/%s/%s", DENV_OVERRIDE, projectname, filename);
+        }
+        else if (DXDG_DATA != NULL)
+        {
+            snprintf(DPATH, PATH_MAX, "%s", DXDG_DATA);
+            snprintf(DFILE, PATH_MAX, "%s/%s/%s", DXDG_DATA, projectname, filename);
+        }
+        else if (HOME != NULL)
+        {
+            snprintf(DPATH, PATH_MAX, "%s/.local/share", HOME);
+            snprintf(DFILE, PATH_MAX, "%s/.local/share/%s/%s", HOME, projectname, filename);
+        }
+        else
+        {
+            fprintf(stderr, "%s line %d %s fatal: DENV_OVERRIDE_DATA, XDG_DATA_HOME, and HOME are all unset.", __FILE__, __LINE__, __func__);
+            return -1;
+        }
+        break;
     }
 
-    else if (
-        HOME != NULL)
+    case DRYOX_XDG_STATE:
     {
-        snprintf(LOG_PATH, PATH_MAX, "%s/.local/state/%s", HOME, projectname);
+        const char *DENV_OVERRIDE = getenv("DENV_OVERRIDE_STATE");
+        const char *DXDG_STATE = getenv("XDG_STATE_HOME");
+        if (DENV_OVERRIDE != NULL)
+        {
+            snprintf(DPATH, PATH_MAX, "%s", DENV_OVERRIDE);
+            snprintf(DFILE, PATH_MAX, "%s/%s/%s", DENV_OVERRIDE, projectname, filename);
+        }
+        else if (DXDG_STATE != NULL)
+        {
+            snprintf(DPATH, PATH_MAX, "%s", DXDG_STATE);
+            snprintf(DFILE, PATH_MAX, "%s/%s/%s", DXDG_STATE, projectname, filename);
+        }
+        else if (HOME != NULL)
+        {
+            snprintf(DPATH, PATH_MAX, "%s/.local/state", HOME);
+            snprintf(DFILE, PATH_MAX, "%s/.local/state/%s/%s", HOME, projectname, filename);
+        }
+        else
+        {
+            fprintf(stderr, "%s line %d %s fatal: DENV_OVERRIDE_STATE, XDG_STATE_HOME, and HOME are all unset.", __FILE__, __LINE__, __func__);
+            return -1;
+        }
+        break;
     }
 
-    else
+    case DRYOX_XDG_CACHE:
     {
-        fprintf(stderr,
-                "The libdryox module \"init\" could not find a valid path.\n"
-                "char DRYOX_LOG_DIR appears undefined,\n"
-                "char XDG_STATE_HOME appears undefined,\n"
-                "char HOME appears undefined,\n"
-                "or the called function has no access to any of the above.\n");
+        const char *DENV_OVERRIDE = getenv("DENV_OVERRIDE_CACHE");
+        const char *DXDG_CACHE = getenv("XDG_CACHE_HOME");
+        if (DENV_OVERRIDE != NULL)
+        {
+            snprintf(DPATH, PATH_MAX, "%s", DENV_OVERRIDE);
+            snprintf(DFILE, PATH_MAX, "%s/%s/%s", DENV_OVERRIDE, projectname, filename);
+        }
+        else if (DXDG_CACHE != NULL)
+        {
+            snprintf(DPATH, PATH_MAX, "%s", DXDG_CACHE);
+            snprintf(DFILE, PATH_MAX, "%s/%s/%s", DXDG_CACHE, projectname, filename);
+        }
+        else if (HOME != NULL)
+        {
+            snprintf(DPATH, PATH_MAX, "%s/.cache", HOME);
+            snprintf(DFILE, PATH_MAX, "%s/.cache/%s/%s", HOME, projectname, filename);
+        }
+        else
+        {
+            fprintf(stderr, "%s line %d %s fatal: DENV_OVERRIDE_CACHE, XDG_CACHE_HOME, and HOME are all unset.", __FILE__, __LINE__, __func__);
+            return -1;
+        }
+        break;
+    }
+
+    case DRYOX_LITERAL:
+        va_start(args, mode);
+        char *arg = va_arg(args, char *);
+        if (arg == NULL)
+        {
+            va_end(args);
+            fprintf(stderr, "%s line %d %s fatal: DRYOX_LITERAL must pass a path as a variadic ..., as char *", __FILE__, __LINE__, __func__);
+            return -1;
+        }
+        snprintf(DFILE, PATH_MAX, "%s", arg);
+        snprintf(DPATH, PATH_MAX, "%s", dirname(arg));
+        va_end(args);
+        break;
+
+    default:
+        fprintf(stderr, "%s line %d %s fatal: mode switch somehow defaulted.", __FILE__, __LINE__, __func__);
         return -1;
     }
-    mkdirp(LOG_PATH);
-    char LOG_FILE[PATH_MAX];
-    snprintf(LOG_FILE, PATH_MAX, "%s/%s", LOG_PATH, filename);
-    strncpy(logfile_out, LOG_FILE, PATH_MAX - 1);
-    logfile_out[PATH_MAX - 1] = '\0';
-    FILE *f = fopen(LOG_FILE, "a");
+    // -- end environment handling --
+
+    // -- begin finalizing --
+
+    mkdirp(DPATH);
+    snprintf(file_out, PATH_MAX, "%s", DFILE);
+    FILE *f = fopen(DFILE, "a");
     if (f == NULL)
         return -1;
     fclose(f);
     return 0;
-}
 
-int dryoinit_absolute(char *logfile_out, char *rawpath)
-{
-    if (rawpath == NULL)
-    {
-        fprintf(stderr,
-                "The libdryox module \"init\" (absolute variant) was not assigned a path,\n"
-                "or the called function has no access to it.\n");
-        return -1;
-    }
-    strncpy(logfile_out, rawpath, PATH_MAX - 1);
-    logfile_out[PATH_MAX - 1] = '\0';
-    mkdirp(dirname(rawpath));
-    FILE *f = fopen(rawpath, "a");
-    if (f == NULL)
-        return -1;
-    fclose(f);
-    return 0;
+    // -- end finalizing --
+
+    // -- end.
 }

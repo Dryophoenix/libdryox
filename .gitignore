@@ -1,0 +1,13 @@
+# Build outputs
+obj/*.o
+libdryox.so
+test_mkdirp
+
+# Test output directories
+tests/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/

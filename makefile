@@ -1,5 +1,5 @@
 CC                	= clang
-CFLAGS				= -I./include -I./vendor -Wall -Wextra -fPIC
+CFLAGS				= -I./include -I./vendor -I./include/dryox -Wall -Wextra -fPIC
 LDFLAGS				= -shared
 
 all					: libdryox.so

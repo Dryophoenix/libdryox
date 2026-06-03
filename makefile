@@ -1,4 +1,4 @@
-CC = gcc
+       CC = gcc
 CFLAGS = -I./include -Wall -Wextra -fPIC
 LDFLAGS = -shared
 

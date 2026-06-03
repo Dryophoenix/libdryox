@@ -1,7 +1,7 @@
 #include "tests/dryo_mkdirp.h"
 #include "utils/dryo_mkdirp.h"
 
-TEST_dryo_mkdirp(void)
+void TEST_dryo_mkdirp(void)
 {
     result = dryo_mkdirp("tests/dryo_mkdirp/a/b/c");
     if (result == 0)

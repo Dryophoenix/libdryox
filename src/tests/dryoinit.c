@@ -13,7 +13,7 @@
  *
  */
 
-TEST_dryoinit(void)
+void TEST_dryoinit(void)
 {
     int result;
     int teststr[PATH_MAX];

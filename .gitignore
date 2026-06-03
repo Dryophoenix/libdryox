@@ -4,7 +4,7 @@ libdryox.so
 test_mkdirp
 
 # Test output directories
-tests/
+./tests/
 
 # macOS
 .DS_Store

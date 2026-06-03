@@ -2,8 +2,8 @@
 #include "tests/dryo_mkdirp.h"
 #include "dryox/dryoinit.h"
 #include "tests/dryoinit.h"
-#include "dryox/logging.h"
-
+#include "dryox/dryologging.h"
+#include "tests/dryologging.h"
 /*
 testall.c is a libdryox helper.
 
@@ -90,16 +90,7 @@ int main(void)
     LOG_FILE
 
     */
-
-    if (
-        dryolog(LOG_DEBUG, "test Debug") == 0 &&
-        dryolog(LOG_INFO, "test Info") == 0 &&
-        dryolog(LOG_WARN, "test Warn") == 0 &&
-        dryolog(LOG_ERROR, "test Error") == 0 &&
-        dryolog(LOG_FATAL, "test Fatal") == 0)
-        printf("dryolog probably passed,\n");
-    else
-        printf("dryolog probably failed, \n");
+    void TEST_dryologging(void)
 
     return 0;
 }

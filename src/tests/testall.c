@@ -1,6 +1,7 @@
 #include "utils/dryo_mkdirp.h"
 #include "tests/dryo_mkdirp.h"
-#include "dryox/init.h"
+#include "dryox/dryoinit.h"
+#include "tests/dryoinit.h"
 #include "dryox/logging.h"
 
 /*
@@ -23,6 +24,7 @@ It defines the following types:
 */
 
 /*
+
 test template()
 
 IS PART OF:
@@ -38,16 +40,9 @@ ACCEPTS ENVIRONMENT:
 
 int main(void)
 {
-
-
-    int result;
-    char teststr[PATH_MAX] = {0};
-    // int testint = 0;
-    // float testfloat = 0.0;
-
     /*
 
-    test dryo_mkdirp(char *dirpath);
+    test dryo_mkdirp(const char *dirpath);
 
     IS PART OF:
     utils
@@ -60,14 +55,13 @@ int main(void)
 
     */
 
-    TEST_dryo_mkdirp(void);
+    TEST_dryo_mkdirp();
 
     /*
-    for dryoinit 0.2.0
     test dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mode);
 
     IS PART OF:
-    init
+    dryoinit
 
     REQUIRES:
     dryo_mkdirp FROM utils.c
@@ -77,75 +71,10 @@ int main(void)
     XDG_(x)_HOME;
     where (x) = DATA, STATE, CONFIG, CACHE.
     HOME;
-    */
-
-    // Make sure dryoinit works.
-    // Once you're sure dryoinit works, make sure the env works.
-
-    result = dryoinit(teststr, "test.log", "TestProject", DRYOX_XDG_STATE);
-    if (result == 0)
-        printf("dryoinit passed,\n");
-    else
-        printf("dryoinit failed,\n");
-
-    setenv("DENV_OVERRIDE_STATE", "tests/init/OVERRIDE/state", 1);
-    result = dryoinit(teststr, "test.log", "TestProject", DRYOX_XDG_STATE);
-    if (result == 0)
-        printf("dryoinit OVERRIDE passed,\n");
-    else
-        printf("dryoinit OVERRIDE failed,\n");
-    unsetenv("DENV_OVERRIDE_STATE");
-
-    setenv("XDG_STATE_HOME", "tests/init/XDG/state", 1);
-    result = dryoinit(teststr, "test.log", "TestProject", DRYOX_XDG_STATE);
-    if (result == 0)
-        printf("dryoinit XDG passed,\n");
-    else
-        printf("dryoinit XDG failed,\n");
-    unsetenv("XDG_STATE_HOME");
-
-    char HOME_BUF[PATH_MAX];
-    const char *HOME_ORIG = getenv("HOME");
-    if (HOME_ORIG != NULL)
-        snprintf(HOME_BUF, PATH_MAX, "%s", HOME_ORIG);
-
-    setenv("HOME", "tests/init/HOME/state", 1);
-    result = dryoinit(teststr, "test.log", "TestProject", DRYOX_XDG_STATE);
-    if (result == 0)
-        printf("dryoinit HOME passed,\n");
-    else
-        printf("dryoinit HOME failed,\n");
-
-    if (HOME_ORIG != NULL)
-        setenv("HOME", HOME_BUF, 1);
-    else
-        unsetenv("HOME");
-
-    /*
-    test dryoinit with DRYOX_LITERAL mode
-
-    IS PART OF:
-    init
-
-    REQUIRES:
-    dryo_mkdirp FROM utils.c
-
-    ACCEPTS ENVIRONMENT:
-    -
 
     */
 
-    char LOG_FILE[PATH_MAX];
-    result = dryoinit(LOG_FILE, NULL, NULL, DRYOX_LITERAL, "tests/logging/test.log");
-    if (result == 0)
-        printf("dryoinit (DRYOX_LITERAL) passed,\n");
-    else
-    {
-        snprintf(LOG_FILE, PATH_MAX, "tests/logging/test.log");
-        printf("dryoinit (DRYOX_LITERAL) failed,\n");
-    }
-
-    // This test provides LOG_FILE in any case, providing it for test dryolog.
+    TEST_dryoinit();
 
     /*
     test dryolog(Log_Level level, char *format, ...);

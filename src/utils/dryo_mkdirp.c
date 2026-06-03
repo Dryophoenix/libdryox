@@ -1,3 +1,4 @@
+#include "utils/dryou_mkdirp.h"
 #include <stdio.h>
 #include <limits.h>
 #include <sys/stat.h>
@@ -9,9 +10,9 @@
 #define COUNTER_INIT 0
 
 /*
-utils.c is a libdryox module.
-It serves the following extern functions:
-    void mkdirp(char *dirpath);
+dryou_mkdirp.c is a libdryox module.
+It serves the following functions:
+    int dryou_mkdirp(char *dirpath);
 
 It defines the following types:
 
@@ -19,8 +20,8 @@ It allocates the following variables:
 
 */
 
-// mkdirp version 0.2.0
-int mkdirp(char *dirpath)
+// dryou_mkdirp version 0.2.0
+int dryou_mkdirp(char *dirpath)
 {
     char path[PATH_MAX];
     strncpy(path, dirpath, PATH_MAX);

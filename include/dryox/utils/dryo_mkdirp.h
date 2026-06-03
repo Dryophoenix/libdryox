@@ -1,6 +1,6 @@
-#ifndef DRYOX_UTILS_H
-#define DRYOX_UTILS_H
+#ifndef DRYOU_MKDIRP_H
+#define DRYOU_MKDIRP_H
 
-int mkdirp(char *dirpath);
+int dryou_mkdirp(const char *dirpath);
 
 #endif

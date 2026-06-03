@@ -1,4 +1,4 @@
-#include "dryox/logging.h"
+#include "dryox/dryologging.h"
 #include <stdio.h>
 #include <limits.h>
 #include <time.h>
@@ -8,7 +8,7 @@
 #include "dryox/init.h"
 
 /*
-logging.c is a libdryox module.
+dryologging.c is a libdryox module.
 It serves the following extern functions:
     dryolog(Level level, char * message, ...);
 

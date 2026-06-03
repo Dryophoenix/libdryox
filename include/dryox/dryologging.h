@@ -1,5 +1,5 @@
-#ifndef LOGGING
-#define LOGGING
+#ifndef DRYOX_LOGGING_H
+#define DRYOX_LOGGING_H
 
 typedef enum
 {

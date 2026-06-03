@@ -40,7 +40,7 @@ int main(void)
 
     /*
 
-    test mkdirp(char *dirpath);
+    test dryo_mkdirp(char *dirpath);
 
     IS PART OF:
     utils
@@ -53,11 +53,11 @@ int main(void)
 
     */
 
-    result = mkdirp("tests/mkdirp/a/b/c");
+    result = dryo_mkdirp("tests/dryo_mkdirp/a/b/c");
     if (result == 0)
-        printf("mkdirp passed,\n");
+        printf("dryo_mkdirp passed,\n");
     else
-        printf("mkdirp failed,\n");
+        printf("dryo_mkdirp failed,\n");
 
     /*
     for dryoinit 0.2.0
@@ -67,7 +67,7 @@ int main(void)
     init
 
     REQUIRES:
-    mkdirp FROM utils.c
+    dryo_mkdirp FROM utils.c
 
     ACCEPTS ENVIRONMENT:
     DENV_OVERRIDE_(x);
@@ -125,7 +125,7 @@ int main(void)
     init
 
     REQUIRES:
-    mkdirp FROM utils.c
+    dryo_mkdirp FROM utils.c
 
     ACCEPTS ENVIRONMENT:
     -

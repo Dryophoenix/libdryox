@@ -1,15 +1,20 @@
-#include <stdio.h>
-#include <limits.h>
-#include <string.h>
-#include <stdlib.h>
-#include "dryox/utils.h"
+#include "utils/dryo_mkdirp.h"
+#include "tests/dryo_mkdirp.h"
 #include "dryox/init.h"
 #include "dryox/logging.h"
 
 /*
-test.c is a libdryox helper.
+testall.c is a libdryox helper.
 
-It serves the following extern functions:
+This source serves mostly as documentation, instead relying on each function's
+    specific test being included.
+
+This serves so that each test may be done independently.
+
+TODO: Write a function into makefile so that test (some program) tests (some
+    program).
+
+It serves the following functions:
     -
 
 It defines the following types:
@@ -17,21 +22,23 @@ It defines the following types:
 
 */
 
+/*
+test template()
+
+IS PART OF:
+-
+
+REQUIRES:
+-
+
+ACCEPTS ENVIRONMENT:
+-
+
+*/
+
 int main(void)
 {
-    /*
-    test template()
 
-    IS PART OF:
-    -
-
-    REQUIRES:
-    -
-
-    ACCEPTS ENVIRONMENT:
-    -
-
-    */
 
     int result;
     char teststr[PATH_MAX] = {0};
@@ -53,11 +60,7 @@ int main(void)
 
     */
 
-    result = dryo_mkdirp("tests/dryo_mkdirp/a/b/c");
-    if (result == 0)
-        printf("dryo_mkdirp passed,\n");
-    else
-        printf("dryo_mkdirp failed,\n");
+    TEST_dryo_mkdirp(void);
 
     /*
     for dryoinit 0.2.0

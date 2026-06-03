@@ -1,33 +1,43 @@
-       CC = gcc
-CFLAGS = -I./include -Wall -Wextra -fPIC
-LDFLAGS = -shared
+CC                	= clang
+CFLAGS				= -Wall -Wextra -fPIC
+LDFLAGS				= -shared
 
-ODIR = obj
-TARGET = libdryox.so
+all					: libdryox.so
 
-_SRC = logging.c utils.c init.c
-SRC = $(patsubst %,src/%,$(_SRC))
-OBJ = $(patsubst src/%.c,$(ODIR)/%.o,$(SRC))
+# -- libdryoutils --
+_LIBDRYOUTILS_SRC 	= dryo_mkdirp.c
+LIBDRYOUTILS_SRC	= $(addprefix src/utils/, $(_LIBDRYOUTILS_SRC))
+LIBDRYOUTILS_OBJ 	= $(LIBDRYOUTILS_SRC:.c=.o)
 
-_DEPS = dryox/logging.h dryox/utils.h dryox/init.h
-DEPS = $(patsubst %,include/%,$(_DEPS))
+# an edge case for tooling partially associated with dryoX
+libdryoutils.so : $(LIBDRYOUTILS_OBJ)
+	$(CC) $(LDFLAGS) -o $@ $(LIBDRYOUTILS_OBJ)
+# --
 
-$(ODIR)/%.o: src/%.c $(DEPS)
+# -- libdryox (main) --
+_LIBDRYOX_SRC 		= logging.c init.c
+LIBDRYOX_SRC		= $(addprefix src/, $(_LIBDRYOX_SRC))
+LIBDRYOX_OBJ     	= $(LIBDRYOX_SRC:.c=.o)
+
+libdryox.so : $(LIBDRYOX_OBJ) $(LIBDRYOUTILS_OBJ)
+	$(CC) $(LDFLAGS) -o $@ $(LIBDRYOX_OBJ) $(LIBDRYOUTILS_OBJ)
+# --
+
+%.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(TARGET): $(OBJ)
-	$(CC) $(LDFLAGS) -o $@ $^
+.PHONY 				: all libdryox libdryoutils clean test
 
-all: $(TARGET)
+libdryox			: libdryox.so
+libdryoutils		: libdryoutils.so
 
-test_mkdirp: src/test.c $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^
+test 				: libdryox.so
+	mkdir -p -- tests
+	$(CC) $(CFLAGS) -Isrc src/tests/testall.c -o tests/testall \
+	-L. -ldryox -Wl,-rpath,'$$ORIGIN/..'
+	./tests/testall
 
-.PHONY: all test clean
+clean 				:
+	rm -rf -- tests
+	rm -f -- $(LIBDRYOX_OBJ) $(LIBDRYOUTILS_OBJ) libdryox.so libdryoutils.so
 
-test: test_mkdirp
-	./test_mkdirp
-
-clean:
-	rm -f $(ODIR)/*.o $(TARGET) test_mkdirp
-	rm -rf tests

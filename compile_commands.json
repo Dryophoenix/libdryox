@@ -1,0 +1,38 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-I./include",
+      "-I./vendor",
+      "-I./include/dryox",
+      "-Wall",
+      "-Wextra",
+      "-fPIC",
+      "-c",
+      "-o",
+      "src/dryologging.o",
+      "src/dryologging.c"
+    ],
+    "directory": "/home/nephh/Documents/Repos/Mine/DryoX/libdryox",
+    "file": "/home/nephh/Documents/Repos/Mine/DryoX/libdryox/src/dryologging.c",
+    "output": "/home/nephh/Documents/Repos/Mine/DryoX/libdryox/src/dryologging.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-I./include",
+      "-I./vendor",
+      "-I./include/dryox",
+      "-Wall",
+      "-Wextra",
+      "-fPIC",
+      "-c",
+      "-o",
+      "src/dryoinit.o",
+      "src/dryoinit.c"
+    ],
+    "directory": "/home/nephh/Documents/Repos/Mine/DryoX/libdryox",
+    "file": "/home/nephh/Documents/Repos/Mine/DryoX/libdryox/src/dryoinit.c",
+    "output": "/home/nephh/Documents/Repos/Mine/DryoX/libdryox/src/dryoinit.o"
+  }
+]

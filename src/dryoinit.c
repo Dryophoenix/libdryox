@@ -1,11 +1,11 @@
-#include "dryox/init.h"
+#include "dryox/dryoinit.h"
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <limits.h>
 #include <string.h>
 #include <libgen.h>
-#include "dryox/utils.h"
+#include "utils/dryo_mkdirp.h"
 
 // Init version 0.2.0
 
@@ -182,7 +182,7 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
 
     // -- begin finalizing --
 
-    mkdirp(DPATH);
+    dryou_mkdirp(DPATH);
     snprintf(file_out, PATH_MAX, "%s", DFILE);
     FILE *f = fopen(DFILE, "a");
     if (f == NULL)

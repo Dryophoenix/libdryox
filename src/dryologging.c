@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include "dryox/init.h"
+#include "dryox/dryoinit.h"
 
 /*
 dryologging.c is a libdryox module.

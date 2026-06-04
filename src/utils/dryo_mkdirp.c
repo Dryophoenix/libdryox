@@ -1,4 +1,4 @@
-#include "utils/dryou_mkdirp.h"
+#include "utils/dryo_mkdirp.h"
 #include <stdio.h>
 #include <limits.h>
 #include <sys/stat.h>
@@ -21,7 +21,7 @@ It allocates the following variables:
 */
 
 // dryou_mkdirp version 0.2.0
-int dryou_mkdirp(char *dirpath)
+int dryou_mkdirp(const char *dirpath)
 {
     char path[PATH_MAX];
     strncpy(path, dirpath, PATH_MAX);

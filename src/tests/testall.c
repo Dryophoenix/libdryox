@@ -90,7 +90,7 @@ int main(void)
     LOG_FILE
 
     */
-    void TEST_dryologging(void)
+    TEST_dryologging();
 
     return 0;
 }

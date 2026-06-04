@@ -4,6 +4,11 @@ LDFLAGS				= -shared
 
 all					: libdryox.so
 
+# -- all tests --
+_TESTING_SRC 		= dryo_mkdirp.c dryoinit.c dryologging.c
+TESTING_SRC 		= $(addprefix src/tests/, $(_TESTING_SRC))
+# --
+
 # -- libdryoutils --
 _LIBDRYOUTILS_SRC 	= dryo_mkdirp.c
 LIBDRYOUTILS_SRC	= $(addprefix src/utils/, $(_LIBDRYOUTILS_SRC))
@@ -15,7 +20,7 @@ libdryoutils.so : $(LIBDRYOUTILS_OBJ)
 # --
 
 # -- libdryox (main) --
-_LIBDRYOX_SRC 		= logging.c init.c
+_LIBDRYOX_SRC 		= dryologging.c dryoinit.c
 LIBDRYOX_SRC		= $(addprefix src/, $(_LIBDRYOX_SRC))
 LIBDRYOX_OBJ     	= $(LIBDRYOX_SRC:.c=.o)
 
@@ -33,7 +38,7 @@ libdryoutils		: libdryoutils.so
 
 test 				: libdryox.so
 	mkdir -p -- tests
-	$(CC) $(CFLAGS) -Isrc src/tests/testall.c -o tests/testall \
+	$(CC) $(CFLAGS) $(TESTING_SRC) src/tests/testall.c -o tests/testall \
 	-L. -ldryox -Wl,-rpath,'$$ORIGIN/..'
 	./tests/testall
 

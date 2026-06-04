@@ -1,5 +1,6 @@
 #include "tests/dryologging.h"
 #include "dryox/dryologging.h"
+#include <stdio.h>
 
 // TODO: Eisenhower 3 Rewrite (comprehensiveness)
 

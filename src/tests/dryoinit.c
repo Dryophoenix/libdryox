@@ -16,7 +16,7 @@
 void TEST_dryoinit(void)
 {
     int result;
-    int teststr[PATH_MAX];
+    char teststr[PATH_MAX];
 
     result = dryoinit(teststr, "test.log", "TestProject", DRYOX_XDG_STATE);
     if (result == 0)

@@ -163,6 +163,8 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
     case DRYOX_LITERAL:
         va_start(args, mode);
         char *arg = va_arg(args, char *);
+        char arg_copy[PATH_MAX];
+        snprintf(arg_copy, PATH_MAX, "%s", arg);
         if (arg == NULL)
         {
             va_end(args);
@@ -170,7 +172,7 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
             return -1;
         }
         snprintf(DFILE, PATH_MAX, "%s", arg);
-        snprintf(DPATH, PATH_MAX, "%s", dirname(arg));
+        snprintf(DPATH, PATH_MAX, "%s", dirname(arg_copy));
         va_end(args);
         break;
 

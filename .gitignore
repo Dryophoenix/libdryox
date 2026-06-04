@@ -1,6 +1,7 @@
 # Build outputs
 obj/*.o
-libdryox.so
+*.o
+*.so
 test_mkdirp
 
 # Test output directories

@@ -9,15 +9,13 @@
 
 #define ENV_NAME_MAX 32
 
-// Init version 0.2.0
-
 /*
 init.c is a libdryox module.
-It serves the following extern functions:
+It serves the following functions:
     dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir
 mode, ...);
 
-It defines the following types:
+It serves the following types:
     typedef enum Dryox_XDG_Dir;
 */
 

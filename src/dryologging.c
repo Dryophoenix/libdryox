@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <time.h>
 
@@ -54,7 +55,7 @@ Type_Association association_levels[COUNTOF_LOG_LEVELS] = {
     {LOG_ERROR, TYPE_STDERR}, {LOG_FATAL, TYPE_STDERR},
 };
 
-int dryolog(Log_Level level, char *format, ...)
+int dryolog_internal(Log_Level level, const char *file, int line, const char *func, char *format, ...)
 {
   // getenvs
   char *is_quiet_buf = getenv("IS_QUIET");
@@ -88,20 +89,17 @@ int dryolog(Log_Level level, char *format, ...)
   // TODO: stderr suppression for ERROR and FATAL
 
   // handle each level
-  if (type == TYPE_NORMAL)
   {
-    fprintf(logfile, "[%s] [%s] ", ts, LEVEL_NAMES[level]);
+    fprintf(logfile, "%s: [%s] [%s] %s:%d:\n\t", file, ts, LEVEL_NAMES[level], func, line);
     vfprintf(logfile, format, args);
-    fprintf(logfile, "\n");
+    fprintf(logfile, "\n---\n");
   }
 
-  else if (type == TYPE_STDERR && is_quiet == 0)
+  if (type == TYPE_STDERR && is_quiet == 0)
   {
-    fprintf(logfile, "[%s] [%s] ", ts, LEVEL_NAMES[level]);
-    vfprintf(logfile, format, args);
-    fprintf(logfile, "\n");
+    fprintf(stderr, "%s: %s:%d:\n\t", file, func, line);
     vfprintf(stderr, format, args_for_error);
-    fprintf(stderr, "\n");
+    fprintf(stderr, "\n---\n");
   }
 
   // end variadics

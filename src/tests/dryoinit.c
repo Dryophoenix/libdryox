@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// TODO: Eisenhower 2 Refactor
-
 /*
  * What does this test do?
  *

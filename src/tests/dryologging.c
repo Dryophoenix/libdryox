@@ -1,8 +1,8 @@
 #include "tests/dryologging.h"
 #include "dryox/dryologging.h"
+#include "tests/REPORT.h"
 #include <stdio.h>
-
-// TODO: Eisenhower 3 Rewrite (comprehensiveness)
+#include <stdlib.h>
 
 /*
  * What does this test do?
@@ -13,10 +13,15 @@
 
 void TEST_dryologging(void)
 {
-  if (dryolog(LOG_DEBUG, "test Debug") == 0 && dryolog(LOG_INFO, "test Info") == 0 &&
-      dryolog(LOG_WARN, "test Warn") == 0 && dryolog(LOG_ERROR, "test Error") == 0 &&
-      dryolog(LOG_FATAL, "test Fatal") == 0)
-    printf("dryolog probably passed,\n");
-  else
-    printf("dryolog probably failed, \n");
+  REPORT(dryolog(LOG_DEBUG, "TEST_DEBUG"), "LOG_DEBUG");
+  REPORT(dryolog(LOG_INFO, "TEST_INFO"), "LOG_INFO");
+  REPORT(dryolog(LOG_WARN, "TEST_WARN"), "LOG_WARN");
+  REPORT(dryolog(LOG_ERROR, "TEST_ERROR"), "LOG_ERROR");
+  REPORT(dryolog(LOG_FATAL, "TEST_FATAL"), "LOG_FATAL");
+  setenv("DRYOX_LITERAL_PATH", "tests/logging/test.log", 1);
+  REPORT(dryolog(LOG_DEBUG, "TEST_DEBUG"), "LOG_DEBUG");
+  REPORT(dryolog(LOG_INFO, "TEST_INFO"), "LOG_INFO");
+  REPORT(dryolog(LOG_WARN, "TEST_WARN"), "LOG_WARN");
+  REPORT(dryolog(LOG_ERROR, "TEST_ERROR"), "LOG_ERROR");
+  REPORT(dryolog(LOG_FATAL, "TEST_FATAL"), "LOG_FATAL");
 }

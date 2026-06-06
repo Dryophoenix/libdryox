@@ -10,11 +10,15 @@
 
 /*
 dryologging.c is a libdryox module.
+
+TODO:
+  Only serve a guard for DRYOX_LITERAL_PATH instead of calling dryoinit each time.
+
 It serves the following extern functions:
-    dryolog(Level level, char * message, ...);
+  dryolog(Level level, char * message, ...);
 
 It defines the following types:
-    typedef enum Log_Level;
+  typedef enum Log_Level;
 */
 
 #define DRYOX_TIMESTAMP_SIZE 32
@@ -100,16 +104,16 @@ int dryolog_internal(Log_Level level, const char *file, int line, const char *fu
 
   // handle each level
   {
-    fprintf(logfile, "%s: [%s] [%s] %s:%d:\n\t", file, ts, LEVEL_NAMES[level], func, line);
+    fprintf(logfile, "%s: [%s] [%s] %s:%d states:\n\t", file, ts, LEVEL_NAMES[level], func, line);
     vfprintf(logfile, format, args);
-    fprintf(logfile, "\n---\n");
+    fprintf(logfile, "\n\t---\n");
   }
 
   if (type == TYPE_STDERR && is_quiet == 0)
   {
-    fprintf(stderr, "%s: %s:%d:\n\t", file, func, line);
+    fprintf(stderr, "%s: %s:%d states:\n\t", file, func, line);
     vfprintf(stderr, format, args_for_error);
-    fprintf(stderr, "\n---\n");
+    fprintf(stderr, "\n\t---\n");
   }
 
   // end variadics

@@ -90,6 +90,7 @@ int main(void)
   LOG_FILE
 
   */
+
   TEST_dryologging();
 
   return 0;

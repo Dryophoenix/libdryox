@@ -119,7 +119,7 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
   // -- begin finalizing --
   char DFILE_copy[PATH_MAX];
   snprintf(DFILE_copy, PATH_MAX, "%s", DFILE);
-  dryou_mkdirp(dirname(DFILE_copy));
+  dryo_mkdirp(dirname(DFILE_copy));
   snprintf(file_out, PATH_MAX, "%s", DFILE);
   FILE *f = fopen(DFILE, "a");
   if (f == NULL)

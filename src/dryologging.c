@@ -22,7 +22,6 @@ It defines the following types:
 static char PROJECT_NAME[] = "DryoX/libdryox";
 static char FILE_NAME[] = "logging";
 static char LOG_FILE[PATH_MAX];
-__attribute__((constructor)) static void init(void) { dryoinit(LOG_FILE, FILE_NAME, PROJECT_NAME, DRYOX_XDG_STATE); }
 
 /* this is defined in the header.
 typedef enum
@@ -57,6 +56,17 @@ Type_Association association_levels[COUNTOF_LOG_LEVELS] = {
 
 int dryolog_internal(Log_Level level, const char *file, int line, const char *func, char *format, ...)
 {
+  // dryoinit
+  char *PATH = getenv("DRYOX_LITERAL_PATH");
+  if (!PATH)
+  {
+    dryoinit(LOG_FILE, FILE_NAME, PROJECT_NAME, DRYOX_XDG_STATE);
+  }
+  else
+  {
+    dryoinit(LOG_FILE, FILE_NAME, PROJECT_NAME, DRYOX_LITERAL, PATH);
+  }
+
   // getenvs
   char *is_quiet_buf = getenv("IS_QUIET");
   int is_quiet = is_quiet_buf != NULL && strcmp(is_quiet_buf, "0") != 0;

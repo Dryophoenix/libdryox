@@ -57,7 +57,8 @@ Type_Association association_levels[COUNTOF_LOG_LEVELS] = {
 int dryolog(Log_Level level, char *format, ...)
 {
   // getenvs
-  char *is_quiet = getenv("IS_QUIET");
+  char *is_quiet_buf = getenv("IS_QUIET");
+  int is_quiet = is_quiet_buf != NULL && strcmp(is_quiet_buf, "0") != 0;
 
   // make a timestamp ts with current time since unix epoch
   char ts[DRYOX_TIMESTAMP_SIZE];
@@ -94,7 +95,7 @@ int dryolog(Log_Level level, char *format, ...)
     fprintf(logfile, "\n");
   }
 
-  else if (type == TYPE_STDERR && !is_quiet)
+  else if (type == TYPE_STDERR && is_quiet == 0)
   {
     fprintf(logfile, "[%s] [%s] ", ts, LEVEL_NAMES[level]);
     vfprintf(logfile, format, args);

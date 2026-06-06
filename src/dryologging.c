@@ -7,8 +7,6 @@
 #include <sys/stat.h>
 #include <time.h>
 
-// TODO: Refactor for struct basis instead of switch (Eisenhower 3)
-
 /*
 dryologging.c is a libdryox module.
 It serves the following extern functions:
@@ -25,9 +23,42 @@ static char FILE_NAME[] = "logging";
 static char LOG_FILE[PATH_MAX];
 __attribute__((constructor)) static void init(void) { dryoinit(LOG_FILE, FILE_NAME, PROJECT_NAME, DRYOX_XDG_STATE); }
 
-// dryolog version 0.1.0
+/* this is defined in the header.
+typedef enum
+{
+  LOG_DEBUG,
+  LOG_INFO,
+  LOG_WARN,
+  LOG_ERROR,
+  LOG_FATAL,
+  COUNTOF_LOG_LEVELS
+} Log_Level;
+*/
+
+typedef enum
+{
+  TYPE_NORMAL,
+  TYPE_STDERR,
+} Type_Level;
+
+static const char *LEVEL_NAMES[] = {"DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OUT_OF_LEVEL_RANGE_ERROR"};
+
+typedef struct
+{
+  Log_Level level;
+  Type_Level type;
+} Type_Association;
+
+Type_Association association_levels[COUNTOF_LOG_LEVELS] = {
+    {LOG_DEBUG, TYPE_NORMAL}, {LOG_INFO, TYPE_NORMAL},  {LOG_WARN, TYPE_NORMAL},
+    {LOG_ERROR, TYPE_STDERR}, {LOG_FATAL, TYPE_STDERR},
+};
+
 int dryolog(Log_Level level, char *format, ...)
 {
+  // getenvs
+  char *is_quiet = getenv("IS_QUIET");
+
   // make a timestamp ts with current time since unix epoch
   char ts[DRYOX_TIMESTAMP_SIZE];
   time_t now = time(NULL);
@@ -44,6 +75,9 @@ int dryolog(Log_Level level, char *format, ...)
     return -1;
   }
 
+  // parse level into Type_Association
+  int type = association_levels[level].type;
+
   // start variadics
   va_list args;
   va_list args_for_error;
@@ -53,42 +87,20 @@ int dryolog(Log_Level level, char *format, ...)
   // TODO: stderr suppression for ERROR and FATAL
 
   // handle each level
-  switch (level)
+  if (type == TYPE_NORMAL)
   {
-
-  case LOG_DEBUG:
-    fprintf(logfile, "[%s] [DEBUG] ", ts);
+    fprintf(logfile, "[%s] [%s] ", ts, LEVEL_NAMES[level]);
     vfprintf(logfile, format, args);
     fprintf(logfile, "\n");
-    break;
+  }
 
-  case LOG_INFO:
-    fprintf(logfile, "[%s] [INFO] ", ts);
-    vfprintf(logfile, format, args);
-    fprintf(logfile, "\n");
-    break;
-
-  case LOG_WARN:
-    fprintf(logfile, "[%s] [WARN] ", ts);
-    vfprintf(logfile, format, args);
-    fprintf(logfile, "\n");
-    break;
-
-  case LOG_ERROR:
-    fprintf(logfile, "[%s] [ERROR] ", ts);
+  else if (type == TYPE_STDERR && !is_quiet)
+  {
+    fprintf(logfile, "[%s] [%s] ", ts, LEVEL_NAMES[level]);
     vfprintf(logfile, format, args);
     fprintf(logfile, "\n");
     vfprintf(stderr, format, args_for_error);
     fprintf(stderr, "\n");
-    break;
-
-  case LOG_FATAL:
-    fprintf(logfile, "[%s] [FATAL] ", ts);
-    vfprintf(logfile, format, args);
-    fprintf(logfile, "\n");
-    vfprintf(stderr, format, args_for_error);
-    fprintf(stderr, "\n");
-    break;
   }
 
   // end variadics

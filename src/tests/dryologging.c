@@ -1,7 +1,6 @@
 #include "tests/dryologging.h"
 #include "dryox/dryologging.h"
 #include "tests/REPORT.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 /*

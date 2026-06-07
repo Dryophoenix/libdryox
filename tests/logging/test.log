@@ -1,0 +1,15 @@
+src/tests/dryologging.c: [06-06-2026 23:31:43] [DEBUG] TEST_dryologging:21 states:
+	TEST_DEBUG
+	---
+src/tests/dryologging.c: [06-06-2026 23:31:43] [INFO] TEST_dryologging:22 states:
+	TEST_INFO
+	---
+src/tests/dryologging.c: [06-06-2026 23:31:43] [WARN] TEST_dryologging:23 states:
+	TEST_WARN
+	---
+src/tests/dryologging.c: [06-06-2026 23:31:43] [ERROR] TEST_dryologging:24 states:
+	TEST_ERROR
+	---
+src/tests/dryologging.c: [06-06-2026 23:31:43] [FATAL] TEST_dryologging:25 states:
+	TEST_FATAL
+	---

@@ -13,7 +13,7 @@ else
 endif
 
 LIBDRYOX			= libdryox.$(LIB_EXT)
-LIBDRYOUTILS		= libdroyutils.$(LIB_EXT)
+LIBDRYOUTILS		= libdryoutils.$(LIB_EXT)
 
 all					: $(LIBDRYOX) $(LIBDRYOUTILS)
 
@@ -58,6 +58,11 @@ test 				: all
 clean 				:
 	rm -rf -- tests
 	rm -f -- $(LIBDRYOX_OBJ) $(LIBDRYOUTILS_OBJ) $(LIBDRYOX) $(LIBDRYOUTILS)
+
+cleanall			:
+	rm -rf -- tests
+	rm -f -- $(LIBDRYOX_OBJ) $(LIBDRYOUTILS_OBJ) $(LIBDRYOX) $(LIBDRYOUTILS)
+	rm -f -- libdryox.so libdryoutils.so libdryox.dylib libdryoutils.dylib
 
 PREFIX				?= /usr/local
 INCLUDEDIR			?= $(PREFIX)/include

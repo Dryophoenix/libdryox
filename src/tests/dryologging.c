@@ -24,4 +24,5 @@ void TEST_dryologging(void)
   REPORT(dryolog(LOG_WARN, "TEST_WARN"), "LOG_WARN");
   REPORT(dryolog(LOG_ERROR, "TEST_ERROR"), "LOG_ERROR");
   REPORT(dryolog(LOG_FATAL, "TEST_FATAL"), "LOG_FATAL");
+  unsetenv("DRYOX_LITERAL_PATH");
 }

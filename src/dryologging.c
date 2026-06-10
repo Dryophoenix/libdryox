@@ -26,19 +26,6 @@ It defines the following types:
 static char PROJECT_NAME[] = "DryoX/libdryox";
 static char FILE_NAME[] = "logging";
 static char LOG_FILE[PATH_MAX];
-
-/* this is defined in the header.
-typedef enum
-{
-  LOG_DEBUG,
-  LOG_INFO,
-  LOG_WARN,
-  LOG_ERROR,
-  LOG_FATAL,
-  COUNTOF_LOG_LEVELS
-} Log_Level;
-*/
-
 typedef enum
 {
   TYPE_NORMAL,

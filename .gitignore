@@ -3,6 +3,12 @@ obj/*.o
 *.o
 *.so
 test_mkdirp
+__pycache__/
+*.pyc
+_dryox.c
+build/
+dist/
+*.egg-info/
 
 # Test output directories
 ./tests/

@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pypa/cibuildwheel@v2
+      - uses: pypa/cibuildwheel@v4.0.0
         with:
           output-dir: dist
 

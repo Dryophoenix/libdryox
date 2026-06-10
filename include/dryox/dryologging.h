@@ -13,6 +13,8 @@ typedef enum
 
 int dryolog_internal(Log_Level level, const char *file, int line, const char *func, char *format, ...);
 
+int dryolog_external(Log_Level level, const char *file, int line, const char *func, char *msg);
+
 #define dryolog(level, format, ...) dryolog_internal(level, __FILE__, __LINE__, __func__, format, ##__VA_ARGS__)
 
 #endif

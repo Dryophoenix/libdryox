@@ -112,3 +112,8 @@ int dryolog_internal(Log_Level level, const char *file, int line, const char *fu
 
   return 0;
 }
+
+int dryolog_external(Log_Level level, const char *file, int line, const char *func, char *msg)
+{
+  return dryolog_internal(level, file, line, func, msg);
+}

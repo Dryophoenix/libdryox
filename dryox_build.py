@@ -1,9 +1,6 @@
 import sys
 from cffi import FFI
 
-if not sys.platform.startswith('linux'):
-    raise Exception("Linux support only this commit")
-
 ffibuilder = FFI()
 
 ffibuilder.cdef(

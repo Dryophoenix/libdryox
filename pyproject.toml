@@ -10,7 +10,7 @@ build = "cp313-*"
 
 [project]
 name = "dryox"
-version = "1.0.2"
+version = "1.0.4"
 authors = [
   { name="Leah Hillis", email="leah@dryophoenix.net" },
 ]

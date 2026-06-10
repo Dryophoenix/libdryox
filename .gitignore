@@ -12,3 +12,6 @@ test_mkdirp
 
 # Editor
 .vscode/
+
+# venv
+.venv

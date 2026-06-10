@@ -1,0 +1,4 @@
+include dryox_build.py
+recursive-include vendor *.c *.h
+recursive-include src *.c
+recursive-include include *.h

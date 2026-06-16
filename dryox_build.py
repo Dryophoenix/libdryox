@@ -28,5 +28,31 @@ ffibuilder.set_source("_dryox",
     include_dirs=['include', 'include/dryox'],
 )
 
+ffibuilder.cdef(
+"""
+    // dryoinit.h
+
+    typedef enum
+    {
+    DRYOX_XDG_UNSET,
+    DRYOX_XDG_CONFIG,
+    DRYOX_XDG_DATA,
+    DRYOX_XDG_STATE,
+    DRYOX_XDG_CACHE,
+    DRYOX_LITERAL,
+    } Dryox_XDG_Dir;
+
+    int dryoinit_external(char *filename, char *projectname, Dryox_XDG_Dir mode);
+"""
+)
+
+ffibuilder.set_source("_dryox",
+"""
+    #include "dryox/dryoinit.h"
+""",
+    sources=['src/dryoinit.c', 'src/utils/dryo_mkdirp.c'],
+    include_dirs=['include', 'include/dryox'],
+)
+
 if __name__ == "__main__":
     ffibuilder.compile(verbose=True)

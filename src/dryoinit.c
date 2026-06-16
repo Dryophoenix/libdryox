@@ -62,7 +62,8 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
 
   if (mode == DRYOX_XDG_UNSET)
   {
-    fprintf(stderr, "%s line %d %s fatal: mode may not be unset and does not default", __FILE__, __LINE__, __func__);
+    fprintf(stderr, "%s line %d %s fatal: mode may not be unset and explicitly does not default.", __FILE__, __LINE__,
+            __func__);
     return -1;
   }
 
@@ -70,10 +71,9 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
   // --
 
   // -- begin variables initializing --
-
   const char *HOME = getenv("HOME");
 
-  char DFILE[PATH_MAX];
+  char DFILE[PATH_MAX]; // DFILE is "dryofile",
 
   // -- end variables initializing --
 
@@ -129,4 +129,12 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
   // --
 
   // -- end.
+}
+
+int dryoinit_external(char *filename, char *projectname, Dryox_XDG_Dir mode)
+{
+  if (dryoinit(NULL, filename, projectname, mode))
+    return 1;
+  else
+    return 0;
 }

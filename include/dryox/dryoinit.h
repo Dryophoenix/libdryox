@@ -12,5 +12,6 @@ typedef enum
 } Dryox_XDG_Dir;
 
 int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mode, ...);
+int dryoinit_external(char *filename, char *projectname, Dryox_XDG_Dir mode);
 
 #endif

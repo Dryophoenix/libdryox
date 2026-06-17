@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(dryox VERSION 1.1.0 LANGUAGES C)
+project(dryox VERSION 1.2.0 LANGUAGES C)
 
 add_library(dryoutils SHARED
     src/utils/dryo_mkdirp.c

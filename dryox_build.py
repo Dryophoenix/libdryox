@@ -20,13 +20,7 @@ ffibuilder.cdef(
     int dryolog_external(Log_Level level, const char *file, int line, const char *func, char *msg);
 """)
 
-ffibuilder.set_source("_dryox",
-"""
-    #include "dryox/dryologging.h"
-""",
-    sources=['src/dryologging.c', 'src/dryoinit.c', 'src/utils/dryo_mkdirp.c'],
-    include_dirs=['include', 'include/dryox'],
-)
+
 
 ffibuilder.cdef(
 """
@@ -49,8 +43,9 @@ ffibuilder.cdef(
 ffibuilder.set_source("_dryox",
 """
     #include "dryox/dryoinit.h"
+    #include "dryox/dryologging.h"
 """,
-    sources=['src/dryoinit.c', 'src/utils/dryo_mkdirp.c'],
+    sources=['src/dryologging.c', 'src/dryoinit.c', 'src/utils/dryo_mkdirp.c'],
     include_dirs=['include', 'include/dryox'],
 )
 

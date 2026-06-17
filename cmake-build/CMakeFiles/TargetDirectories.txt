@@ -1,0 +1,10 @@
+/home/nephh/Documents/Repos/Mine/DryoX/libdryox/cmake-build/CMakeFiles/dryoutils.dir
+/home/nephh/Documents/Repos/Mine/DryoX/libdryox/cmake-build/CMakeFiles/dryox.dir
+/home/nephh/Documents/Repos/Mine/DryoX/libdryox/cmake-build/CMakeFiles/testall.dir
+/home/nephh/Documents/Repos/Mine/DryoX/libdryox/cmake-build/CMakeFiles/test.dir
+/home/nephh/Documents/Repos/Mine/DryoX/libdryox/cmake-build/CMakeFiles/edit_cache.dir
+/home/nephh/Documents/Repos/Mine/DryoX/libdryox/cmake-build/CMakeFiles/rebuild_cache.dir
+/home/nephh/Documents/Repos/Mine/DryoX/libdryox/cmake-build/CMakeFiles/list_install_components.dir
+/home/nephh/Documents/Repos/Mine/DryoX/libdryox/cmake-build/CMakeFiles/install.dir
+/home/nephh/Documents/Repos/Mine/DryoX/libdryox/cmake-build/CMakeFiles/install/local.dir
+/home/nephh/Documents/Repos/Mine/DryoX/libdryox/cmake-build/CMakeFiles/install/strip.dir

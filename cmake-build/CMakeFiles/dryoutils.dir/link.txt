@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC -Wl,--dependency-file=CMakeFiles/dryoutils.dir/link.d -shared -Wl,-soname,libdryoutils.so -o libdryoutils.so CMakeFiles/dryoutils.dir/src/utils/dryo_mkdirp.c.o

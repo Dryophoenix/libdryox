@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC -Wl,--dependency-file=CMakeFiles/dryox.dir/link.d -shared -Wl,-soname,libdryox.so -o libdryox.so CMakeFiles/dryox.dir/src/dryologging.c.o CMakeFiles/dryox.dir/src/dryoinit.c.o  -Wl,-rpath,/home/nephh/Documents/Repos/Mine/DryoX/libdryox/cmake-build: libdryoutils.so

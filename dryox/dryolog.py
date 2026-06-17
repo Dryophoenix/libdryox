@@ -22,4 +22,4 @@ def dryolog(level: int, msg: str) -> int:
     func: str = frame.f_code.co_name
     if func is None:
         func = "errorNoFunctionName"
-    lib.dryolog_external(level, file.encode(), line, func.encode(), msg.encode())
+    return lib.dryolog_external(level, file.encode(), line, func.encode(), msg.encode())

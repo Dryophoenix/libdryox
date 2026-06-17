@@ -20,8 +20,6 @@ ffibuilder.cdef(
     int dryolog_external(Log_Level level, const char *file, int line, const char *func, char *msg);
 """)
 
-
-
 ffibuilder.cdef(
 """
     // dryoinit.h

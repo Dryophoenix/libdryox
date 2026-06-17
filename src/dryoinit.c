@@ -131,10 +131,11 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
   // -- end.
 }
 
-int dryoinit_external(char *filename, char *projectname, Dryox_XDG_Dir mode)
+char *dryoinit_external(char *filename, char *projectname, Dryox_XDG_Dir mode)
 {
-  if (dryoinit(NULL, filename, projectname, mode))
-    return 1;
+  static char file_out[PATH_MAX];
+  if (dryoinit(file_out, filename, projectname, mode))
+    return file_out;
   else
-    return 0;
+    return NULL;
 }

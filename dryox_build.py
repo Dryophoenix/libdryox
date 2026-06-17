@@ -34,7 +34,7 @@ ffibuilder.cdef(
     DRYOX_LITERAL,
     } Dryox_XDG_Dir;
 
-    int dryoinit_external(char *filename, char *projectname, Dryox_XDG_Dir mode);
+    char *dryoinit_external(char *filename, char *projectname, Dryox_XDG_Dir mode);
 """
 )
 

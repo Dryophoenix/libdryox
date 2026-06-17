@@ -11,4 +11,7 @@ class Dryox_XDG_Dir(IntEnum):
     DRYOX_LITERAL = 5
 
 def dryoinit(filename: str, projectname: str, mode: Dryox_XDG_Dir) -> int:
-    lib.dryoinit_external(filename.encode(), projectname.encode(), mode)
+    result = lib.dryoinit_external(filename.encode(), projectname.encode(), mode)
+    if result == ffi.NULL:
+        return None
+    return ffi.string(result).decode()

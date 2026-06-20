@@ -9,10 +9,12 @@ _dryox.c
 build/
 dist/
 *.egg-info/
+./.cache/
+
 
 # Test output directories
 ./tests/
-
+./Testing/
 # macOS
 .DS_Store
 

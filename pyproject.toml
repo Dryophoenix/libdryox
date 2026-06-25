@@ -10,7 +10,7 @@ build = "cp313-*"
 
 [project]
 name = "dryox"
-version = "1.2.1"
+dynamic = ["version"]
 authors = [
   { name="Leah Hillis", email="leah@dryophoenix.net" },
 ]
@@ -27,3 +27,6 @@ license-files = ["LICENSE"]
 [project.urls]
 Homepage = "https://github.com/Dryophoenix/libdryox"
 Issues = "https://github.com/Dryophoenix/libdryox/issues"
+
+[tool.setuptools.dynamic]
+version = {file = "VERSION"}

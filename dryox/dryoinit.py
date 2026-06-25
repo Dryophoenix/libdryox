@@ -1,4 +1,6 @@
 from _dryox import ffi, lib
+# The warning here is benign, if you're using a linter.
+# It just can't see the build artifact that is _dryox.
 from enum import IntEnum
 import inspect
 

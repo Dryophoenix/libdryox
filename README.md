@@ -91,6 +91,47 @@ dryolog(LOG_DEBUG, "Hello from dryologging!")
 #   ---
 ```
 
+## Installation
+
+Installation is performed using
+```shell
+(sudo) make install
+```
+for the C library, or can be installed
+using
+```shell
+pip install dryox
+```
+for the Python version.
+
+## Build
+
+This makefile expects Clang.
+
+The Python components of the project use Python 3.9+ and cffi.
+
+The makefile has the following methods:
+
+```shell
+make libdryox
+```
+equivalent to make (make all).
+
+```shell
+make test
+```
+runs test-all, which itself runs tests for each module.
+
+```shell
+make clean; make cleanall
+```
+removes most build artifacts. (cleanall removes all build artifacts, but
+`make clean` should be used in most cases.)
+
+```shell
+make install; make uninstall
+```
+see installation.
 
 ## Dependencies
 

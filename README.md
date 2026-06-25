@@ -75,7 +75,7 @@ dryolog(LOG_DEBUG, "%s\n", "Hello from dryologging!");
 
 In Python:
 ```python
-def dryolog(level: int, msg: str) -> int
+def dryolog(level: LogLevel, msg: str) -> int
 
 dryolog(LOG_DEBUG, "Hello from dryologging!")
 # or ..._INFO or ..._WARN or ..._ERROR or ..._FATAL

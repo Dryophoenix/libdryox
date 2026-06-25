@@ -9,7 +9,7 @@ class LogLevel(IntEnum):
     ERROR   = 3
     FATAL   = 4
 
-def dryolog(level: int, msg: str) -> int:
+def dryolog(level: LogLevel, msg: str) -> int:
     frame = inspect.currentframe()
     if frame is not None:
         frame = frame.f_back

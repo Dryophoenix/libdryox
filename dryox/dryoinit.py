@@ -10,7 +10,7 @@ class Dryox_XDG_Dir(IntEnum):
     DRYOX_XDG_CACHE = 4
     DRYOX_LITERAL = 5
 
-def dryoinit(filename: str, projectname: str, mode: Dryox_XDG_Dir) -> int:
+def dryoinit(filename: str, projectname: str, mode: Dryox_XDG_Dir) -> str:
     result = lib.dryoinit_external(filename.encode(), projectname.encode(), mode)
     if result == ffi.NULL:
         return None

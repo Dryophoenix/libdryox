@@ -45,7 +45,7 @@ Type_Association association_levels[COUNTOF_LOG_LEVELS] = {
     {LOG_ERROR, TYPE_STDERR}, {LOG_FATAL, TYPE_STDERR},
 };
 
-int dryolog_internal(Log_Level level, const char *file, int line, const char *func, char *format, ...)
+int dryolog_internal(Log_Level level, const char *file, int line, const char *func, const char *format, ...)
 {
   // dryoinit
   char *PATH = getenv("DRYOX_LITERAL_PATH");

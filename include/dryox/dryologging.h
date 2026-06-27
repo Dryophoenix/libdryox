@@ -11,7 +11,7 @@ typedef enum
   COUNTOF_LOG_LEVELS
 } Log_Level;
 
-int dryolog_internal(Log_Level level, const char *file, int line, const char *func, char *format, ...);
+int dryolog_internal(Log_Level level, const char *file, int line, const char *func, const char *format, ...);
 
 int dryolog_external(Log_Level level, const char *file, int line, const char *func, char *msg);
 

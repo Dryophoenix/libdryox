@@ -20,11 +20,17 @@ int dryolog_external(Log_Level level, const char *file, int line, const char *fu
 
 #define dryolog(level, format, ...) dryolog_internal(level, __FILE__, __LINE__, __func__, format, ##__VA_ARGS__)
 
-#define dryolog_errno(code, msg)                                                                                       \
+#define dryolog_declare_errno(code, msg)                                                                               \
   do                                                                                                                   \
   {                                                                                                                    \
     dryolog(LOG_ERROR, "%s: %s", msg, strerror(code));                                                                 \
     errno = (code);                                                                                                    \
-  } while (0)
+  } while (0);
+
+#define dryolog_parrot_errno(errno, msg)                                                                               \
+  do                                                                                                                   \
+  {                                                                                                                    \
+    dryolog(LOG_ERROR, "%s. Error %d: %s", msg, errno, strerror(errno));                                               \
+  } while (0);
 
 #endif

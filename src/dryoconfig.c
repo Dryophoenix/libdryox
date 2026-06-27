@@ -2,6 +2,8 @@
 #include "dryox/dryoinit.h"
 #include "dryox/dryologging.h"
 #include "tomlc17/tomlc17.h"
+#include <assert.h>
+#include <errno.h>
 #include <limits.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -17,14 +19,28 @@
 
 dryoconfig_t dryoconfig_START_DECLARATION(char *filename, char *projectname)
 {
+  assert(filename != NULL && projectname != NULL);
+
   char fname[PATH_MAX];
+
   if (dryoinit(fname, filename, projectname, DRYOX_XDG_CONFIG) == -1)
   {
-    // TODO: dryoinit errno
-    return (dryoconfig_t){0};
+    int errbuf = errno;
+    dryolog_parrot_errno(errbuf, "dryoinit could not instantiate the config file.");
+    return (dryoconfig_t){.err = errbuf};
   }
-  dryoconfig_t dryo_config;
+
+  dryoconfig_t dryo_config = {0};
+
   dryo_config.file = fopen(fname, "a+");
+
+  if (dryo_config.file == NULL)
+  {
+    int errbuf = errno;
+    dryolog_parrot_errno(errbuf, "fopen did not return a file.");
+    return (dryoconfig_t){.err = errbuf};
+  }
+
   return dryo_config;
 }
 

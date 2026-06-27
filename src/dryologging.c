@@ -11,8 +11,23 @@
 /*
 dryologging.c is a libdryox module.
 
-TODO:
-  Only serve a guard for DRYOX_LITERAL_PATH instead of calling dryoinit each time.
+TODO (refactor scope):
+  - Only serve a guard for DRYOX_LITERAL_PATH instead of calling dryoinit each
+    time. Currently dryoinit + fopen + fclose run on EVERY log call, which is
+    wasteful filesystem work per line. Resolve the path + open the handle once.
+
+  - Switch storage to a structured, lossless record format (logfmt-style):
+        time=... level=ERROR file=<full path> line=24 func=... msg="..."
+    This keeps every field (including the full absolute path) machine-parseable
+    and greppable, and ends the "absolute path vs. clean output" tradeoff:
+    storage stays rich, presentation decides what to show.
+
+  - Treat human-readable prettiness as a VIEWER concern, not a storage concern.
+    The viewer can render basename(file) (libgen.h, as dryoinit already uses for
+    dirname), group/align fields, etc. Storage stays flat and chronological so
+    grep/tail/awk keep working and every line is self-contained. Do NOT omit
+    repeated fields or reorder entries in storage -- that breaks per-line
+    self-containment and chronological order, the two properties a log relies on.
 
 It serves the following extern functions:
   dryolog(Level level, char * message, ...);

@@ -1,6 +1,9 @@
 #ifndef DRYOX_LOGGING_H
 #define DRYOX_LOGGING_H
 
+// Used for strerr in dryolog_errno.
+#include <errno.h>
+#include <string.h>
 typedef enum
 {
   LOG_DEBUG,
@@ -16,5 +19,12 @@ int dryolog_internal(Log_Level level, const char *file, int line, const char *fu
 int dryolog_external(Log_Level level, const char *file, int line, const char *func, char *msg);
 
 #define dryolog(level, format, ...) dryolog_internal(level, __FILE__, __LINE__, __func__, format, ##__VA_ARGS__)
+
+#define dryolog_errno(code, msg)                                                                                       \
+  do                                                                                                                   \
+  {                                                                                                                    \
+    dryolog(LOG_ERROR, "%s: %s", msg, strerror(code));                                                                 \
+    errno = (code);                                                                                                    \
+  } while (0)
 
 #endif

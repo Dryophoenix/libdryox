@@ -1,5 +1,6 @@
 #include "dryox/dryoinit.h"
 #include "utils/dryo_mkdirp.h"
+#include <errno.h>
 #include <libgen.h>
 #include <limits.h>
 #include <stdarg.h>
@@ -54,16 +55,15 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
   // start --
 
   // -- this section handles arguments. --
-  if (filename == NULL)
+  if (filename == NULL || filename[0] == '\0')
     filename = "default.log";
 
-  if (projectname == NULL)
+  if (projectname == NULL || projectname[0] == '\0')
     projectname = "DryoX";
 
   if (mode == DRYOX_XDG_UNSET)
   {
-    fprintf(stderr, "%s line %d %s fatal: mode may not be unset and explicitly does not default.", __FILE__, __LINE__,
-            __func__);
+    errno = EINVAL;
     return -1;
   }
 
@@ -86,10 +86,7 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
     if (arg == NULL)
     {
       va_end(args);
-      fprintf(stderr,
-              "%s line %d %s fatal: DRYOX_LITERAL must pass a path as a "
-              "variadic ..., as char *",
-              __FILE__, __LINE__, __func__);
+      errno = EINVAL;
       return -1;
     }
 
@@ -110,7 +107,7 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
       snprintf(DFILE, PATH_MAX, mode_associated_datum->format_home, HOME, projectname, filename);
     else
     {
-      fprintf(stderr, "%s line %d %s fatal: all environment variables unset.", __FILE__, __LINE__, __func__);
+      errno = ENOENT;
       return -1;
     }
   }
@@ -123,7 +120,10 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
   snprintf(file_out, PATH_MAX, "%s", DFILE);
   FILE *f = fopen(DFILE, "a");
   if (f == NULL)
+  {
+    errno = ENOENT;
     return -1;
+  }
   fclose(f);
   return 0;
   // --

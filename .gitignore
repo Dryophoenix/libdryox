@@ -2,6 +2,7 @@
 obj/*.o
 *.o
 *.so
+*.dylib
 test_mkdirp
 __pycache__/
 *.pyc

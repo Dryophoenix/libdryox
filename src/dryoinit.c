@@ -11,13 +11,14 @@
 #define ENV_NAME_MAX 32
 
 /*
-init.c is a libdryox module.
-It serves the following functions:
-    dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir
-mode, ...);
+dryoinit.c is a libdryox module.
 
-It serves the following types:
-    typedef enum Dryox_XDG_Dir;
+It serves the following extern functions:
+  int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mode, ...);
+  char *dryoinit_external(char *filename, char *projectname, Dryox_XDG_Dir mode);
+
+It defines the following types:
+  (none -- Dryox_XDG_Dir is defined in dryoinit.h)
 */
 
 /* This is defined in the header.
@@ -31,6 +32,7 @@ typedef enum
     DRYOX_LITERAL,
 } Dryox_XDG_Dir;
 */
+
 typedef struct
 {
   Dryox_XDG_Dir mode;

@@ -11,13 +11,12 @@
 
 /*
 dryo_mkdirp.c is a libdryox module.
-It serves the following functions:
-    int dryo_mkdirp(char *dirpath);
+
+It serves the following extern functions:
+  int dryo_mkdirp(const char *dirpath);
 
 It defines the following types:
-
-It allocates the following variables:
-
+  (none)
 */
 
 int dryo_mkdirp(const char *dirpath)

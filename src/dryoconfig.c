@@ -9,6 +9,18 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+/*
+dryoconfig.c is a libdryox module.
+
+It serves the following extern functions:
+  dryoconfig_t dryoconfig_START_DECLARATION(char *filename, char *projectname);
+  int dryoconfig_declare_section(char *name, dryoconfig_t *dryo_config);
+  int dryoconfig_declare_comment(char *comment, bool is_inline);
+
+It defines the following types:
+  (none -- dryoconfig_t is defined in dryoconfig.h)
+*/
+
 // -- Start declaration functions --
 
 // Each of the declaration functions are for declaring expected configs, and

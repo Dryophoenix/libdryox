@@ -30,10 +30,16 @@ TODO (refactor scope):
     self-containment and chronological order, the two properties a log relies on.
 
 It serves the following extern functions:
-  dryolog(Level level, char * message, ...);
+  int dryolog_internal(Log_Level level, const char *file, int line, const char *func, const char *format, ...);
+  int dryolog_external(Log_Level level, const char *file, int line, const char *func, char *msg);
 
 It defines the following types:
-  typedef enum Log_Level;
+  (none -- Log_Level is defined in dryologging.h)
+
+It defines the following macros (in dryologging.h):
+  dryolog(level, format, ...)
+  dryolog_declare_errno(code, msg)
+  dryolog_parrot_errno(errno, msg)
 */
 
 #define DRYOX_TIMESTAMP_SIZE 32

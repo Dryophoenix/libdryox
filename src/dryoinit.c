@@ -121,7 +121,7 @@ int dryoinit(char *file_out, char *filename, char *projectname, Dryox_XDG_Dir mo
   FILE *f = fopen(DFILE, "a");
   if (f == NULL)
   {
-    errno = ENOENT;
+    // errno = set by fopen...
     return -1;
   }
   fclose(f);
